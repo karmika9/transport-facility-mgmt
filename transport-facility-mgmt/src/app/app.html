@@ -1,0 +1,50 @@
+<div class="container">
+<h2>Transport Facility (Today Only)</h2>
+
+
+<!-- ADD RIDE -->
+<section class="card">
+<h3>Add New Ride</h3>
+<form (ngSubmit)="addRide()" #f="ngForm">
+<input required [(ngModel)]="newRide.driverEmployeeId" name="emp" placeholder="Employee ID" />
+<select required [(ngModel)]="newRide.vehicleType" name="vt">
+<option value="">Vehicle Type</option>
+<option>Bike</option>
+<option>Car</option>
+</select>
+<input required [(ngModel)]="newRide.vehicleNo" name="vn" placeholder="Vehicle No" />
+<input required type="number" min="1" [(ngModel)]="newRide.vacantSeats" name="vs" placeholder="Vacant Seats" />
+<input required type="time" [(ngModel)]="newRide.time" name="time" />
+<input required [(ngModel)]="newRide.pickup" name="pu" placeholder="Pick-up" />
+<input required [(ngModel)]="newRide.destination" name="dest" placeholder="Destination" />
+<button [disabled]="f.invalid">Add Ride</button>
+</form>
+</section>
+
+
+<!-- FILTERS -->
+<section class="card">
+<h3>Search / Filter</h3>
+<select [(ngModel)]="filterVehicleType">
+<option value="ALL">All Vehicles</option>
+<option>Bike</option>
+<option>Car</option>
+</select>
+<input type="time" [(ngModel)]="searchTime" />
+</section>
+
+
+<!-- AVAILABLE RIDES -->
+<section class="card">
+<h3>Available Rides</h3>
+<div *ngFor="let r of visibleRides()" class="ride">
+<div>
+<b>{{ r.vehicleType }}</b> | {{ r.vehicleNo }} | Seats: {{ r.vacantSeats }}
+</div>
+<div>{{ r.pickup }} → {{ r.destination }} @ {{ r.time }}</div>
+<input placeholder="Your Employee ID" [(ngModel)]="bookingEmpId" />
+<button (click)="bookRide(r)">Book</button>
+</div>
+<p *ngIf="visibleRides().length === 0">No matching rides</p>
+</section>
+</div>
